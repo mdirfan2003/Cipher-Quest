@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cipher Quest</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main id="app">
+        <div id="screen-home" class="screen active">
+            <section class="screen-content" aria-labelledby="home-title">
+                <header class="hero">
+                    <p class="eyebrow">Cryptography Training Game</p>
+                    <h1 id="home-title">Cipher Quest</h1>
+                    <p class="hero-text">
+                        Decode hidden messages, learn classic ciphers, and climb the leaderboard.
+                    </p>
+                </header>
+
+                <form id="player-form" class="player-form">
+                    <label for="player-name">Enter your username</label>
+                    <input 
+                        type="text" 
+                        id="player-name" 
+                        name="playerName" 
+                        placeholder="Agent name"
+                        maxlength="20"
+                        autocomplete="off"
+                        required
+                    >
+
+                    <button type="submit" id="btn-start">Start Game</button>
+                </form>
+
+                <nav class="menu-actions" aria-label="Main menu">
+                    <button type="button" id="btn-home-leaderboard">Leaderboard</button>
+                    <button type="button" id="btn-home-howtoplay">How to Play</button>
+                </nav>
+            </section>
+        </div>
+
+        <div id="screen-difficulty" class="screen hidden">
+            <section class="screen-content" aria-labelledby="difficulty-title">
+                <header>
+                    <p class="eyebrow">Select Mission Level</p>
+                    <h2 id="difficulty-title">Choose Difficulty</h2>
+                    <p>Each difficulty changes the time limit, hints, and maximum attempts.</p>
+                </header>
+
+                <section class="difficulty-grid" aria-label="Difficulty options">
+                    <article class="difficulty-card">
+                        <h3>Easy</h3>
+                        <p>120 seconds, 3 hints, and 5 attempts per level.</p>
+                        <button type="button" class="btn-difficulty" data-difficulty="easy">Easy</button>
+                    </article>
+
+                    <article class="difficulty-card">
+                        <h3>Medium</h3>
+                        <p>60 seconds, 2 hints, and 3 attempts per level.</p>
+                        <button type="button" class="btn-difficulty" data-difficulty="medium">Medium</button>
+                    </article>
+
+                    <article class="difficulty-card">
+                        <h3>Hard</h3>
+                        <p>30 seconds, 1 hint, and 2 attempts per level.</p>
+                        <button type="button" class="btn-difficulty" data-difficulty="hard">Hard</button>
+                    </article>
+                </section>
+            </section>
+        </div>
+
+        <div id="screen-game" class="screen hidden">
+            <section class="screen-content" aria-labelledby="game-title">
+                <header class="game-header">
+                    <div>
+                        <p class="eyebrow">Active Cipher Mission</p>
+                        <h2 id="game-title">Decode the Message</h2>
+                    </div>
+
+                    <section class="game-stats" aria-label="Game status">
+                        <p>Time: <span id="timer-display">00</span></p>
+                        <p>Score: <span id="score-display">0</span></p>
+                        <p>Lives: <span id="lives-display">3</span></p>
+                    </section>
+                </header>
+
+                <section class="cipher-panel" aria-labelledby="cipher-title">
+                    <h3 id="cipher-title">Cipher Text</h3>
+                    <p id="cipher-type-display">Cipher Type: Not loaded</p>
+                    <output id="cipher-text-display" class="cipher-text">
+                        Cipher text will appear here.
+                    </output>
+                </section>
+
+                <form id="answer-form" class="answer-form">
+                    <label for="answer-input">Your answer</label>
+                    <input 
+                        type="text" 
+                        id="answer-input" 
+                        name="answer"
+                        placeholder="Type decoded message"
+                        autocomplete="off"
+                        required
+                    >
+
+                    <button type="submit" id="btn-submit-answer">Submit Answer</button>
+                </form>
+
+                <section class="hint-panel" aria-labelledby="hint-title">
+                    <h3 id="hint-title">Hints</h3>
+                    <p>Hints remaining: <span id="hint-counter">0</span></p>
+                    <button type="button" id="btn-use-hint">Use Hint</button>
+                    <p id="hint-display" aria-live="polite">No hint used yet.</p>
+                </section>
+
+                <p id="game-feedback" class="feedback-message" aria-live="polite"></p>
+            </section>
+        </div>
+
+        <div id="screen-level-complete" class="screen hidden">
+            <section class="screen-content" aria-labelledby="level-complete-title">
+                <header>
+                    <p class="eyebrow">Mission Complete</p>
+                    <h2 id="level-complete-title">Level Complete</h2>
+                </header>
+
+                <section class="score-breakdown" aria-label="Level score breakdown">
+                    <p>Level: <span id="completed-level-number">0</span></p>
+                    <p>Score earned: <span id="score-earned-display">0</span></p>
+                    <p>Time bonus: <span id="time-bonus-display">0</span></p>
+                    <p>Total score: <span id="total-score-display">0</span></p>
+                </section>
+
+                <button type="button" id="btn-continue">Continue</button>
+            </section>
+        </div>
+
+        <div id="screen-gameover" class="screen hidden">
+            <section class="screen-content" aria-labelledby="gameover-title">
+                <header>
+                    <p class="eyebrow">Mission Ended</p>
+                    <h2 id="gameover-title">Game Over</h2>
+                    <p>Your final score has been recorded if it reaches the top 10.</p>
+                </header>
+
+                <section class="final-score" aria-label="Final score">
+                    <p>Final score: <span id="final-score-display">0</span></p>
+                </section>
+
+                <nav class="menu-actions" aria-label="Game over menu">
+                    <button type="button" id="btn-play-again">Play Again</button>
+                    <button type="button" id="btn-gameover-leaderboard">Leaderboard</button>
+                </nav>
+            </section>
+        </div>
+
+        <div id="screen-leaderboard" class="screen hidden">
+            <section class="screen-content" aria-labelledby="leaderboard-title">
+                <header>
+                    <p class="eyebrow">Top Agents</p>
+                    <h2 id="leaderboard-title">Leaderboard</h2>
+                    <p>Top 10 scores saved in this browser.</p>
+                </header>
+
+                <table class="leaderboard-table">
+                    <caption>Top 10 Cipher Quest players</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Rank</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Score</th>
+                            <th scope="col">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body">
+                        <tr>
+                            <td colspan="4">No scores saved yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button type="button" id="btn-leaderboard-back">Back to Home</button>
+            </section>
+        </div>
+
+        <div id="screen-howtoplay" class="screen hidden">
+            <section class="screen-content" aria-labelledby="howtoplay-title">
+                <header>
+                    <p class="eyebrow">Training Manual</p>
+                    <h2 id="howtoplay-title">How to Play</h2>
+                    <p>
+                        Read the encrypted message, work out the original text, and submit your answer before time runs out.
+                    </p>
+                </header>
+
+                <section class="cipher-guide" aria-label="Cipher explanations">
+                    <article>
+                        <h3>Caesar Cipher</h3>
+                        <p>
+                            Each letter is shifted forward or backward by a fixed number of places in the alphabet.
+                        </p>
+                    </article>
+
+                    <article>
+                        <h3>Vigenere Cipher</h3>
+                        <p>
+                            A keyword controls how far each letter is shifted, making the message harder to decode.
+                        </p>
+                    </article>
+
+                    <article>
+                        <h3>Binary to Text</h3>
+                        <p>
+                            Letters are shown as groups of binary numbers. Each group can be converted back into a character.
+                        </p>
+                    </article>
+
+                    <article>
+                        <h3>Morse Code</h3>
+                        <p>
+                            Letters are represented using dots and dashes. Spaces separate letters and words.
+                        </p>
+                    </article>
+
+                    <article>
+                        <h3>ROT13</h3>
+                        <p>
+                            Each letter is shifted by 13 places. Applying ROT13 again returns the original message.
+                        </p>
+                    </article>
+
+                    <article>
+                        <h3>Atbash</h3>
+                        <p>
+                            The alphabet is reversed, so A becomes Z, B becomes Y, and C becomes X.
+                        </p>
+                    </article>
+                </section>
+
+                <button type="button" id="btn-howtoplay-back">Back to Home</button>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/cipherEngine.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/uiController.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/gameState.js"></script>
+    <script src="js/scoreManager.js"></script>
+    <script src="js/soundManager.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
