@@ -22,6 +22,14 @@ The game includes scoring, lives, difficulty settings, hints, sound effects, and
 
 No frameworks, libraries, build tools, or server are required.
 
+## Why Vanilla JavaScript Instead of Node.js?
+
+Cipher Quest uses vanilla JavaScript rather than Node.js because the project is designed as a browser-based single page application. The game does not need a server, database, package manager, build tool, or backend API. All core features run directly inside the browser, including screen switching, answer validation, cipher generation, scoring, timer behaviour, sound effects, progress saving, and leaderboard storage.
+
+This approach matches the aim of the COMP1004 project because the application can be tested by simply opening `index.html` in a modern web browser. No `npm install`, development server, or command-line setup is required. This makes the project easier to run, inspect, assess, and explain during the viva. Vanilla JavaScript is also suitable because the project uses browser APIs such as the DOM, `localStorage`, and the Web Audio API. These are enough for the current game requirements. Node.js would only be useful if the project later needed features such as online accounts, a shared cloud leaderboard, multiplayer support, remote data storage, or server-side authentication.
+
+For the current version, vanilla JavaScript keeps Cipher Quest lightweight, transparent, portable, and aligned with the coursework requirement to build a browser-direct HTML, CSS, and JavaScript application.
+
 ## How to Run Locally
 
 1. Download or clone the project folder.
